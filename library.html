@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyber Library Pro | TPU Cyber Club</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #00d2ff;
+            --accent: #39ff14;
+            --bg-dark: #020817;
+            --card-bg: #0a1120;
+            --text-main: #ffffff;
+            --text-dim: #94a3b8;
+            --win: #0078d4;
+            --lin: #f5ba14;
+            --mac: #a2aaad;
+            --pdf: #ff4b2b;
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Space Grotesk', sans-serif; }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            overflow-x: hidden;
+            padding-top: 80px;
+        }
+
+        /* NAVIGATION */
+        .navbar {
+            background: rgba(10, 17, 32, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 15px 5%;
+            position: fixed;
+            width: 100%; top: 0; z-index: 1000;
+            border-bottom: 1px solid rgba(0, 210, 255, 0.1);
+            display: flex; justify-content: space-between; align-items: center;
+        }
+
+        .back-btn { color: var(--primary); text-decoration: none; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+
+        /* HERO & SEARCH */
+        .hero-search {
+            padding: 60px 5%;
+            text-align: center;
+            background: radial-gradient(circle at center, rgba(0, 210, 255, 0.07) 0%, transparent 70%);
+        }
+
+        .search-container {
+            position: relative;
+            max-width: 650px;
+            margin: 30px auto;
+        }
+
+        .search-container input {
+            width: 100%;
+            padding: 18px 25px 18px 55px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(0, 210, 255, 0.3);
+            border-radius: 50px;
+            color: #fff;
+            outline: none;
+            font-size: 1.1rem;
+            transition: var(--transition);
+        }
+
+        .search-container input:focus { border-color: var(--primary); box-shadow: 0 0 20px rgba(0, 210, 255, 0.2); }
+        .search-container i { position: absolute; left: 22px; top: 50%; transform: translateY(-50%); color: var(--primary); font-size: 1.2rem; }
+
+        /* FILTERS */
+        .filter-container { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 40px; padding: 0 10px; }
+        .filter-btn {
+            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+            color: #fff; padding: 10px 20px; border-radius: 50px; cursor: pointer; transition: 0.3s; font-size: 0.9rem;
+        }
+        .filter-btn.active, .filter-btn:hover { background: var(--primary); color: #000; border-color: var(--primary); }
+
+        /* MARKET GRID */
+        .market-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 25px; padding: 0 5% 80px; }
+        
+        .app-card {
+            background: var(--card-bg); border-radius: 20px; border: 1px solid rgba(0, 210, 255, 0.1);
+            overflow: hidden; transition: var(--transition); position: relative; display: flex; flex-direction: column;
+        }
+        .app-card:hover { transform: translateY(-10px); border-color: var(--primary); box-shadow: 0 15px 40px rgba(0, 210, 255, 0.15); }
+
+        .app-media { height: 160px; position: relative; background: #000; display: flex; align-items: center; justify-content: center; }
+        .app-media img { width: 100%; height: 100%; object-fit: cover; opacity: 0.8; }
+        
+        .os-tag { position: absolute; top: 12px; right: 12px; padding: 4px 10px; border-radius: 6px; font-size: 0.65rem; font-weight: bold; text-transform: uppercase; z-index: 10; }
+
+        .app-content { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; }
+        .app-info-head { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+        .app-icon-box { width: 45px; height: 45px; background: rgba(0, 210, 255, 0.1); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; color: var(--primary); }
+
+        .app-title { font-size: 1.1rem; color: #fff; }
+        .app-subtitle { font-size: 0.75rem; color: var(--text-dim); display: block; }
+
+        .app-footer { display: flex; gap: 10px; margin-top: auto; padding-top: 15px; }
+        .btn { flex: 1; padding: 10px; border-radius: 8px; text-align: center; font-weight: 700; text-decoration: none; font-size: 0.8rem; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .btn-dl { background: var(--primary); color: #000; }
+        .btn-more { background: rgba(255,255,255,0.05); color: #fff; border: 1px solid rgba(255,255,255,0.1); }
+        .btn:hover { opacity: 0.8; transform: translateY(-2px); }
+
+        /* MODAL */
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: none; justify-content: center; align-items: center; z-index: 2000; padding: 20px; }
+        .modal-content { background: var(--card-bg); width: 100%; max-width: 700px; border-radius: 20px; border: 1px solid var(--primary); padding: 30px; position: relative; max-height: 90vh; overflow-y: auto; }
+        .close-modal { position: absolute; top: 15px; right: 20px; font-size: 1.8rem; cursor: pointer; color: var(--primary); }
+        .terminal { background: #000; padding: 15px; border-radius: 10px; font-family: 'JetBrains Mono', monospace; color: var(--accent); margin: 15px 0; border-left: 4px solid var(--accent); font-size: 0.85rem; overflow-x: auto; white-space: pre-wrap; }
+
+        /* FOOTER */
+        .cyber-footer { background: #050b18; padding: 60px 0 30px; border-top: 1px solid rgba(0, 210, 255, 0.1); }
+        .footer-main { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; margin-bottom: 40px; }
+        .footer-logo { display: flex; align-items: center; gap: 12px; font-size: 1.4rem; color: var(--primary); margin-bottom: 15px; }
+        .footer-col h4 { color: #fff; margin-bottom: 20px; text-transform: uppercase; font-size: 1rem; }
+        .footer-col ul { list-style: none; }
+        .footer-col ul li { margin-bottom: 10px; }
+        .footer-col ul li a { color: var(--text-dim); text-decoration: none; transition: 0.3s; font-size: 0.9rem; }
+        .footer-col ul li a:hover { color: var(--primary); padding-left: 5px; }
+        .social-cards { display: flex; gap: 12px; }
+        .s-card { width: 40px; height: 40px; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; border-radius: 8px; color: #fff; text-decoration: none; transition: 0.3s; }
+        .s-card:hover { background: var(--primary); color: #000; transform: translateY(-5px); }
+        .footer-divider { height: 1px; background: rgba(255,255,255,0.05); margin-bottom: 25px; }
+        .footer-bottom { text-align: center; color: var(--text-dim); font-size: 0.85rem; }
+
+        @media (max-width: 768px) {
+            .market-grid { grid-template-columns: 1fr; }
+            .footer-main { text-align: center; }
+            .social-cards { justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> ORQAGA</a>
+        <div class="market-logo" style="color: var(--primary); font-weight: 800; letter-spacing: 1px; font-size: 0.9rem;">TPU CYBER CLUB</div>
+    </nav>
+
+    <header class="hero-search">
+        <h1>Kiber-Resurslar</h1>
+        <p style="color: var(--text-dim); font-size: 0.9rem;">Dasturlar, PDF kitoblar va amaliy qo'llanmalar</p>
+        <div class="search-container">
+            <i class="fas fa-search"></i>
+            <input type="text" id="libSearch" placeholder="Dastur yoki kitob nomini yozing..." onkeyup="searchApps()">
+        </div>
+    </header>
+
+    <div class="filter-container">
+        <button class="filter-btn active" onclick="filterOS('all')">Hammasi</button>
+        <button class="filter-btn" onclick="filterOS('win')">Windows</button>
+        <button class="filter-btn" onclick="filterOS('lin')">Linux</button>
+        <button class="filter-btn" onclick="filterOS('mac')">macOS</button>
+        <button class="filter-btn" onclick="filterOS('pdf')">PDF & Kitoblar</button>
+    </div>
+
+    <main class="market-grid" id="marketGrid">
+        
+        <div class="app-card" data-os="lin">
+            <div class="app-media">
+                <img src="https://www.kali.org/images/kali-logo.svg" style="padding: 20px; background: #0f172a;">
+                <span class="os-tag" style="background: var(--lin); color: #000;">Linux</span>
+            </div>
+            <div class="app-content">
+                <div class="app-info-head">
+                    <div class="app-icon-box"><i class="fas fa-dragon"></i></div>
+                    <div><h3 class="app-title">Kali Linux</h3><span class="app-subtitle">v2024.1 ISO</span></div>
+                </div>
+                <p style="color: var(--text-dim); font-size: 0.8rem;">Penetratsiya testi va xavfsizlik auditi uchun eng mashhur tizim.</p>
+                <div class="app-footer">
+                    <a href="https://cdimage.kali.org/kali-2024.1/kali-linux-2024.1-installer-amd64.iso" class="btn btn-dl"><i class="fas fa-download"></i> ISO</a>
+                    <button class="btn btn-more" onclick="openModal('kali')">BATAFSIL</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="app-card" data-os="win">
+            <div class="app-media">
+                <img src="https://portswigger.net/cms/images/64/0b/2253-article-burp-suite-logo.png">
+                <span class="os-tag" style="background: var(--win); color: #fff;">Windows</span>
+            </div>
+            <div class="app-content">
+                <div class="app-info-head">
+                    <div class="app-icon-box"><i class="fas fa-bug"></i></div>
+                    <div><h3 class="app-title">Burp Suite</h3><span class="app-subtitle">Community Edition</span></div>
+                </div>
+                <p style="color: var(--text-dim); font-size: 0.8rem;">Veb-ilovalar xavfsizligini tekshirish uchun proksi vosita.</p>
+                <div class="app-footer">
+                    <a href="https://portswigger.net/burp/releases/startdownload?product=community&version=2023.12.1.3&type=WindowsX64" class="btn btn-dl"><i class="fas fa-download"></i> EXE</a>
+                    <button class="btn btn-more" onclick="openModal('burp')">BATAFSIL</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="app-card" data-os="pdf">
+            <div class="app-media">
+                <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60">
+                <span class="os-tag" style="background: var(--pdf); color: #fff;">MAQOLA</span>
+            </div>
+            <div class="app-content">
+                <div class="app-info-head">
+                    <div class="app-icon-box"><i class="fas fa-file-pdf"></i></div>
+                    <div><h3 class="app-title">Web Hacking 101</h3><span class="app-subtitle">PDF • 12MB</span></div>
+                </div>
+                <p style="color: var(--text-dim); font-size: 0.8rem;">Veb zaifliklarni topish bo'yicha boshlang'ich qo'llanma.</p>
+                <div class="app-footer">
+                    <a href="#" class="btn btn-dl"><i class="fas fa-book-open"></i> O'QISH</a>
+                    <button class="btn btn-more" onclick="openModal('pdf1')">BATAFSIL</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="app-card" data-os="win">
+            <div class="app-media">
+                <img src="https://149455152.v2.pressablecdn.com/wp-content/uploads/2012/12/wireshark-logo.png">
+                <span class="os-tag" style="background: var(--win); color: #fff;">Windows</span>
+            </div>
+            <div class="app-content">
+                <div class="app-info-head">
+                    <div class="app-icon-box"><i class="fas fa-network-wired"></i></div>
+                    <div><h3 class="app-title">Wireshark</h3><span class="app-subtitle">Tarmoq Analizatori</span></div>
+                </div>
+                <p style="color: var(--text-dim); font-size: 0.8rem;">Tarmoq trafigini real vaqtda tahlil qilish uchun asosiy vosita.</p>
+                <div class="app-footer">
+                    <a href="https://1.na.dl.wireshark.org/win64/Wireshark-win64-4.2.3.exe" class="btn btn-dl"><i class="fas fa-download"></i> EXE</a>
+                    <button class="btn btn-more" onclick="openModal('wire')">BATAFSIL</button>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <div class="modal" id="infoModal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            <div id="modalData"></div>
+        </div>
+    </div>
+
+    <footer class="cyber-footer">
+        <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
+            <div class="footer-main">
+                <div class="footer-col branding">
+                    <div class="footer-logo">
+                        <i class="fas fa-user-shield"></i>
+                        <span>TPU CYBER CLUB</span>
+                    </div>
+                    <p style="font-size: 0.9rem; line-height: 1.6; color: var(--text-dim);">Tashkent Perfect University huzuridagi innovatsion kiber-markaz. Kelajak texnologiyalarini bugun kashf eting.</p>
+                </div>
+                <div class="footer-col links">
+                    <h4>Tezkor navigatsiya</h4>
+                    <ul>
+                        <li><a href="index.html#home"><i class="fas fa-angle-right"></i> Asosiy</a></li>
+                        <li><a href="#marketGrid"><i class="fas fa-angle-right"></i> Manbalar</a></li>
+                        <li><a href="index.html#statute"><i class="fas fa-angle-right"></i> Klub Nizomi</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col social">
+                    <h4>Bizning hamjamiyat</h4>
+                    <div class="social-cards">
+                        <a href="https://t.me/Vscoderr" class="s-card tg"><i class="fab fa-telegram-plane"></i></a>
+                        <a href="https://www.instagram.com/jasurbek.official.uz" class="s-card ig"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.youtube.com/@Jasurbek_Jolanboyev" class="s-card yt"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-divider"></div>
+            <div class="footer-bottom">
+                <div class="copy-text">&copy; 2026 <span>TPU Cyber Club</span>. Barcha huquqlar himoyalangan.</div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const details = {
+            kali: {
+                title: "Kali Linux O'rnatish Qo'llanmasi",
+                text: "Kali Linux-ni VirtualBox-ga o'rnatish tavsiya etiladi. Buning uchun ISO faylni yuklang va yangi virtual mashina yarating.",
+                cmd: "# Tizimni yangilash buyrug'i:\nsudo apt update && sudo apt full-upgrade -y\n\n# Asosiy kiber vositalarni o'rnatish:\nsudo apt install kali-linux-everything",
+                note: "Login: kali / Parol: kali"
+            },
+            burp: {
+                title: "Burp Suite Community",
+                text: "Burp Suite veb-saytlardagi zaifliklarni qidirishda 'Interceptor' vazifasini bajaradi.",
+                cmd: "# Linux uchun o'rnatish:\nchmod +x burpsuite_community_linux.sh\n./burpsuite_community_linux.sh",
+                note: "Browseringizda Proxy sozlamalarini 127.0.0.1:8080 qilib sozlang."
+            },
+            pdf1: {
+                title: "Web Hacking 101 Maqolasi",
+                text: "Ushbu PDF qo'llanma sizga OWASP Top 10 zaifliklarini o'rgatadi. Xususan SQL Injection va XSS hujumlarini amaliy tushuntiradi.",
+                cmd: "Ushbu maqolani o'qish uchun PDF-reader dasturi kerak bo'ladi. Linuxda 'Evince' yoki Windowsda 'Adobe Reader' ishlating.",
+                note: "Faqat o'quv maqsadida foydalaning!"
+            },
+            wire: {
+                title: "Wireshark Qo'llanmasi",
+                text: "Tarmoq paketlarini ushlash va tahlil qilish uchun dunyodagi eng kuchli dastur.",
+                cmd: "# Linuxda o'rnatish:\nsudo apt install wireshark\n\n# Root huquqisiz ishga tushirish:\nsudo dpkg-reconfigure wireshark-common",
+                note: "Tarmoq interfeysini (eth0 yoki wlan0) tanlashni unutmang."
+            }
+        };
+
+        function searchApps() {
+            let input = document.getElementById('libSearch').value.toLowerCase();
+            let cards = document.querySelectorAll('.app-card');
+            cards.forEach(card => {
+                let name = card.querySelector('.app-title').innerText.toLowerCase();
+                card.style.display = name.includes(input) ? "flex" : "none";
+            });
+        }
+
+        function filterOS(os) {
+            let cards = document.querySelectorAll('.app-card');
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+            cards.forEach(card => card.style.display = (os === 'all' || card.dataset.os === os) ? "flex" : "none");
+        }
+
+        function openModal(id) {
+            const data = details[id];
+            document.getElementById('modalData').innerHTML = `
+                <h2 style="color:var(--primary); margin-bottom:15px;">${data.title}</h2>
+                <p style="margin-bottom:20px; line-height:1.6; font-size:0.95rem;">${data.text}</p>
+                <p style="color:var(--accent); font-weight:bold; font-size:0.9rem;">Terminal & Yo'riqnoma:</p>
+                <div class="terminal">${data.cmd}</div>
+                <p style="font-size: 0.8rem; border-top: 1px solid #333; padding-top: 15px; margin-top:10px;">
+                    <i class="fas fa-lightbulb" style="color:var(--primary)"></i> <b>Eslatma:</b> ${data.note}
+                </p>
+            `;
+            document.getElementById('infoModal').style.display = "flex";
+        }
+
+        function closeModal() { document.getElementById('infoModal').style.display = "none"; }
+        window.onclick = (e) => { if(e.target.id === "infoModal") closeModal(); }
+    </script>
+</body>
+</html>
