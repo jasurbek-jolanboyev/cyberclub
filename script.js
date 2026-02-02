@@ -18,10 +18,10 @@ const DEFAULT_TEAM = [
     },
    {
         id: 2,
-        name: "Jasurbek Jo'lanboyev G'ayrat o'g'li",
+        name: "F.I.SH",
         role: "Co Founder",
         description: "Strategik yo‘nalishni belgilaydi va jamoani rivojlanishga yetaklaydi.",
-        image: "assets/jasurbek.png",
+        image: "assets/",
         socials: {
             telegram: "https://t.me/Vscoderr",
             youtube: "https://www.youtube.com/@Jasurbek_Jolanboyev",
@@ -32,10 +32,10 @@ const DEFAULT_TEAM = [
     },
  {
         id: 1,
-        name: "Jasurbek Jo'lanboyev G'ayrat o'g'li",
+        name: "F.I.SH",
         role: "Co Founder",
         description: "Strategik yo‘nalishni belgilaydi va jamoani rivojlanishga yetaklaydi.",
-        image: "assets/jasurbek.png",
+        image: "assets/",
         socials: {
             telegram: "https://t.me/Vscoderr",
             youtube: "https://www.youtube.com/@Jasurbek_Jolanboyev",
