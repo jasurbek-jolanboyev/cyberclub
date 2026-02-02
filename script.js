@@ -16,34 +16,7 @@ const DEFAULT_TEAM = [
             
         }
     },
-   {
-        id: 2,
-        name: "F.I.SH",
-        role: "Co Founder",
-        description: "Strategik yo‘nalishni belgilaydi va jamoani rivojlanishga yetaklaydi.",
-        image: "assets/",
-        socials: {
-            telegram: "https://t.me/Vscoderr",
-            youtube: "https://www.youtube.com/@Jasurbek_Jolanboyev",
-            instagram: "https://www.instagram.com/jasurbek.official.uz",
-            linkedin: "https://www.linkedin.com/in/jasurbek-jo-lanboyev-74b758351",
-            
-        }
-    },
- {
-        id: 1,
-        name: "F.I.SH",
-        role: "Co Founder",
-        description: "Strategik yo‘nalishni belgilaydi va jamoani rivojlanishga yetaklaydi.",
-        image: "assets/",
-        socials: {
-            telegram: "https://t.me/Vscoderr",
-            youtube: "https://www.youtube.com/@Jasurbek_Jolanboyev",
-            instagram: "https://www.instagram.com/jasurbek.official.uz",
-            linkedin: "https://www.linkedin.com/in/jasurbek-jo-lanboyev-74b758351",
-            
-        }
-    }
+
 ];
 
 // 2. Sahifa yuklanganda ishga tushuvchi asosiy qism
